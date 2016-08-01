@@ -4,6 +4,29 @@ function Entry(title, body) {
   this.body = body;
 }
 
+Entry.prototype.wordCount = function() {
+  var bodyArray = this.body.split(" ");
+  return bodyArray.length;
+};
+
+Entry.prototype.vowelCount = function() {
+  var numberOfVowels = 0;
+  this.body = this.body.toLowerCase();
+  for(i = 0; i < this.body.length; i++) {
+    if(this.body[i] == "a" || this.body[i] == "e" || this.body[i] == "i" || this.body[i] == "o" || this.body[i] == "u") {
+      numberOfVowels+=1;
+    }
+  }
+  return numberOfVowels;
+};
+
+Entry.prototype.consonantCount = function() {
+  var numberOfConsonants = 0;
+  this.body = this.body.toLowerCase();
+  this.body.replace("[.,;:''?! ]", "");
+  return this.body.length - this.vowelCount();
+}
+
 exports.entryModule = Entry;
 
 },{}],2:[function(require,module,exports){
@@ -14,10 +37,14 @@ $(document).ready(function() {
     event.preventDefault();
     var title = $('#title').val();
     var body = $('#body').val();
+    $('#title').val("");
+    $('#body').val("");
     var newEntry = new Entry(title, body);
-    $('.output').append("<h2>" + newEntry.title + "</h2>");
-    $('.output').append("<p>" + newEntry.body + "</p>");
-
+    $('.output').prepend("<p>Vowels: " + newEntry.vowelCount());
+    $('.output').prepend("<p>Words: " + newEntry.wordCount());
+    $('.output').prepend("<p>Consonants: " + newEntry.consonantCount());
+    $('.output').prepend("<p>" + newEntry.body + "</p>");
+    $('.output').prepend("<h2>" + newEntry.title + "</h2>");
   });
 });
 
