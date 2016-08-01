@@ -11,7 +11,7 @@ $(document).ready(function() {
     $('.output').prepend("<p>Vowels: " + newEntry.vowelCount());
     $('.output').prepend("<p>Words: " + newEntry.wordCount());
     $('.output').prepend("<p>Consonants: " + newEntry.consonantCount());
-    $('.output').prepend("<p>" + newEntry.body + "</p>");
+    $('.output').prepend("<p>" + newEntry.getTeaser() + "</p>");
     $('.output').prepend("<h2>" + newEntry.title + "</h2>");
   });
 });

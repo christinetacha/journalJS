@@ -11,9 +11,9 @@ Entry.prototype.wordCount = function() {
 
 Entry.prototype.vowelCount = function() {
   var numberOfVowels = 0;
-  this.body = this.body.toLowerCase();
-  for(i = 0; i < this.body.length; i++) {
-    if(this.body[i] == "a" || this.body[i] == "e" || this.body[i] == "i" || this.body[i] == "o" || this.body[i] == "u") {
+  var bodyText = this.body.toLowerCase();
+  for(i = 0; i < bodyText.length; i++) {
+    if(bodyText[i] == "a" || bodyText[i] == "e" || bodyText[i] == "i" || bodyText[i] == "o" || bodyText[i] == "u") {
       numberOfVowels+=1;
     }
   }
@@ -22,9 +22,25 @@ Entry.prototype.vowelCount = function() {
 
 Entry.prototype.consonantCount = function() {
   var numberOfConsonants = 0;
-  this.body = this.body.toLowerCase();
-  this.body.replace("[.,;:''?! ]", "");
-  return this.body.length - this.vowelCount();
+  var bodyText = this.body.toLowerCase();
+  bodyText.replace("[.,;:''?! ]", "");
+  return bodyText.length - this.vowelCount();
+}
+
+Entry.prototype.getTeaser = function() {
+  var sentenceArray = this.body.split(".");
+  var firstSentence = sentenceArray[0];
+  var wordArray = firstSentence.split(" ");
+  if(wordArray.length <= 8) {
+    return firstSentence;
+  } else {
+    var teaser = "";
+    for(i = 0; i < 8; i++) {
+      teaser = teaser + wordArray[i] + " ";
+    }
+    teaser = teaser + "..."
+    return teaser;
+  }
 }
 
 exports.entryModule = Entry;
@@ -43,7 +59,7 @@ $(document).ready(function() {
     $('.output').prepend("<p>Vowels: " + newEntry.vowelCount());
     $('.output').prepend("<p>Words: " + newEntry.wordCount());
     $('.output').prepend("<p>Consonants: " + newEntry.consonantCount());
-    $('.output').prepend("<p>" + newEntry.body + "</p>");
+    $('.output').prepend("<p>" + newEntry.getTeaser() + "</p>");
     $('.output').prepend("<h2>" + newEntry.title + "</h2>");
   });
 });
